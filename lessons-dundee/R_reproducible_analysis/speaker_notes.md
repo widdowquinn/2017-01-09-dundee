@@ -1,6 +1,6 @@
-# SPEAKER_NOTES.md - R
+# SPEAKER_NOTES.md - R for Reproducible Scientific Analysis
 
-Speaker Notes for the 2016-01-12 Software Carpentry R lesson
+Speaker Notes for the 2017-01-11 Software Carpentry R for Reproducible Scientific Analysis lesson
 
 **TYPE ALL EXAMPLES AS YOU GO. THIS KEEPS THE SPEED SANE, AND ALLOWS YOU TO EXPLAIN EVERY STEP.**
 
@@ -17,388 +17,19 @@ Speaker Notes for the 2016-01-12 Software Carpentry R lesson
 * **Our goal is not just to "do stuff"**
   * do it so that anyone can easily and exactly replicate our workflow and results
 
-## Introduction to R and RStudio
-  
-**SLIDE** (Why `R`/`RStudio`?)
-  
-* Talk around slide
-  
-**SLIDE** (`R`/`RStudio` presentation)
-
-* Live presentation section
-* Everyone start up `RStudio`
-
-**Summarise windows**
-
-* Four (maybe three) subwindows:
-  * Interactive `R` console
-  * Editor (may be missing on startup - will appear when files are opened)
-  * Environment/History
-  * Files/Plots/Packages/Help
-  
-### Create a working directory with version control
-
-* **We're following practices of project management**
-  * We'll create a project directory, with `Git` version control
-  * Helps ensure data integrity
-  * Makes sharing code easier (lab-mates, publication)
-  * Easier to recover after a Christmas break
-  
-* **Create the new directory**
-  * `File->New Project`
-  * `New Directory`
-  * `Empty Project`
-  * Enter sensible name, e.g. `swc-workshop`
-  * Check box for `Create a git repository`
-  * `Create project`
-  
-**GREEN/RED STICKY CHECK**  
-
-* Describe contents of new folder
-  * `.gitignore`
-  * `.Rproj`
-  
-**SLIDE** (Best practices)
-
-* Talk around slide
-
-### Create directory structure
-
-**SLIDE** (Creating files/directories)
-
-* Live presentation section
-
-* **Create subdirectory for data**
-  * In `Files` tab, create `data` subdirectory
-  
-* **Create new `R` script**  
-  * `File -> New File -> R script`
-  * save in working directory with sensible name, e.g. `swc-script.R`
-  
-**GREEN/RED STICKY CHECK**
-
-### Version control 
-
-* **Show Git tab on right**
-
-* **Stage files**
-  * Three files shown (including `.gitignore` and the new script file)
-  * Yellow status markers mean they're not in the repository
-  * Click check-boxes to stage them
-  * Note that **we don't version disposable output**
-
-* **Commit files**
-  * Click `Commit`
-  * Describe new dialogue window
-  * Show contents/changes to files
-  * Add commit message ("Initialised repository")
-  * Commit
-  * Show commit summary
-  * Exit
-  
-**GREEN/RED STICKY CHECK**  
-
-**SLIDE** (Challenge 1)
-
-Run through challenge (5min?) - hint about editing `.gitignore`
-
-* Right-click link on presentation and download to `data`
-* Create `graphs` subdirectory in `Files` tab
-* Edit `.gitignore` to add `graphs/` folder and save
-* Stage `.gitignore` in Git tab
-* Commit in Git tab, and add appropriate commit message
-* Demo History window for Git
-
-**SLIDE** (`R` as a calculator)
-
-### Interacting with `R`
-
-* **Two ways**
-  * Type commands in the console
-  * Use the script editor and save the script
-  
-* **Console**
-  * Output shown here
-  * Good for experimentation
-  * Commands 'forgotten' when you close a session
-  
-* **Script**
-  * Keeps record of what you did
-  * Easier to reproduce and share
-  
-**Working at the console**
-
-* `R` shows a `>` if it is expecting input
-
-```
-> 1 + 100
-[1] 101
-```
-
-* `R` shows `+` if it's waiting for completion (`Esc` to exit)
-
-```
-> 1 +
-+ 
-```
-
-**Working from script file**
-
-* Can write same commands in the script file (`1 + 100`)
-  * Use `Run` to execute
-  * Use `Ctrl-Enter` to execute
-  * Output appears in the console
-  * Show `#` comments - good practice to comment
-  * More examples (order of precedence):
-  
-```
-> 3 + 5 * 2
-[1] 13
-> (3 + 5) * 2
-[1] 16
-```
-
-* Show `Source` operation: runs all script
-
-```
-> # Using R as a calculator demo
-> 1 + 100
-[1] 101
-> 3 + 5 * 2
-[1] 13
-> (3 + 5) * 2
-[1] 16
-```
-
-* More examples
-  * scientific notation
-
-```
-> 1/40
-[1] 0.025
-> 2/10000
-[1] 2e-04
-> 5e3
-[1] 5000
-```
-
-### Mathematical functions
-
-* General format: `fn(arg)`
-  * autocompletion - example: `factorial(6)`
-
-```
-> sin(1)
-[1] 0.841471
-> log(1)
-[1] 0
-> log10(10)
-[1] 1
-> exp(0.5)
-[1] 1.648721
-```
-
-### Comparisons
-
-* Return `TRUE`/`FALSE` logical values
-
-```
-> 1 == 1
-[1] TRUE
-> 1 == 2
-[1] FALSE
-> 1 != 2
-[1] TRUE
-> 1 < 2
-[1] TRUE
-> 1 > 2
-[1] FALSE
-> 1 <= 2
-[1] TRUE
-> 1 >= 2
-[1] FALSE
-```
-
-* Computer representation of numbers are approximate: important for comparisons
-  * Any physicists/computer scientists in the room?
-  * Numbers may not be equal, but be 'the same'
-  * Use `all.equal` instead of `==`
-  
-```
-> all.equal(pi-1e-7, pi)
-[1] "Mean relative difference: 3.183099e-08"
-> all.equal(pi-1e-8, pi)
-[1] TRUE
-> pi-1e-8 == pi
-[1] FALSE
-```
-
-### Variables and assignment
-
-* **Variables hold values**, just like in Python
-
-* Two ways to assign variables
-  * The `<-` form is more widely used
-  * Consistency more important than choice
-
-```
-> x <- 1/40
-> x
-[1] 0.025
-> x = 1/40
-> x
-[1] 0.025
-```
-
-* **Look at the Environment tab** automatic updates
-
-```
-> x <- 100
-```
-
-* Variables can be used as arguments to functions
-
-```
-> log(x)
-[1] 4.60517
-> sqrt(x)
-[1] 10
-```
-
-* Variables can be used to reassign values to themselves
-
-```
-> x
-[1] 100
-> x <- x + 1
-> x
-[1] 101
-```
-
-**SLIDE** (Good variable names)
-
-* Talk around slide
-
-**SLIDE** (MCQ1)
-
-* Pose question
-
-### Package management
-
-**SLIDE** (Package Management)
-
-* See what packages are installed with `installed.packages()`
-  * **demo this one**
-* Add a new package using `install.packages("packagename")`
-  * **demo this one with** `install.packages("ggplot2")`
-* Update packages with `update.packages()`
-  * **demo this one**
-* You can remove a package with `remove.packages("packagename")`
-  
-* To make a package available for use, use `library(packagename)`
-  * **demo**
-
-```
-> ggplot()
-Error: could not find function "ggplot"
-> library(ggplot2)
-Warning message:
-package ‘ggplot2’ was built under R version 3.2.3 
-> ggplot()
-Warning message:
-In max(vapply(evaled, length, integer(1))) :
-  no non-missing arguments to max; returning -Inf
-```
-
-**SLIDE** (Challenge 2)
-
-Solution:
-
-```
-install.packages("plyr")
-install.packages("gapminder")
-install.packages("dplyr")
-install.packages("tidyr")
-```
-
-### Getting help for functions
-
-**SLIDE** (Functions, and getting help)
-
-* Talk around slide
-
-* Demo: `round(3.14159)`:
-  * argument: `3.14159`
-  * value: `3`
-  
-```
-> round(3.14159)
-[1] 3
-```  
-
-**SLIDE** (Getting help for functions)
-
-* **Carrying on with `round()` from last slide**
-
-* What other arguments can `round()` take?
-  * Use `args(fname)`
-  
-```
-> args(round)
-function (x, digits = 0) 
-NULL
-```
-
-* Can use the `digits` argument by naming it, or not (but order matters)
-
-```
-> round(3.14159, digits=2)
-[1] 3.14
-> round(3.14159, 2)
-[1] 3.14
-```
-
-* **Best practice**: always use the argument name
-  * clearer to others
-  * if function changes, order may change
-  * difficult to remember the purpose of each argument, if not explicit
-  
-* What does a function do?
-  * Use `?fname` or `help(fname)` to get the complete help text
-  * Demo: `?round` - go through main points
-  
-* What package is my function in?
-  * (i.e. I can't find it, and don't know what to install)
-  * Demo: `??melt` - show that we need `reshape2`
-  
-* Is there a function that does X?
-  * e.g. you know the name of a test, such as Kolmogorov-Smirnov
-  * Demo: `help.search("smirnov")`, `?ks.test`
-
-**SLIDE** (Where can I get more help?)
-
-* Talk around slide
-
-**SLIDE** (Asking the right questions)
-
-* Talk around slide
-
-* For `dput()` example use `dput(head(iris))`
-* Demo `sessionInfo()`
 
 ## Data Types and Structures in `R`
 
 **SLIDE** (Data Structures in `R`)
 
-* Good place to ask about pace/if a break is needed?
+* **Good place to ask about pace/if a break is needed**
 
 **SLIDE** (Learning Objectives)
 
 * Talk around the slide
-
 * **R is largely used for data analysis**
   * The management and manipulation of data depends on the type of data we have
-  * A large amount of day-to-day frustration of learners comes down to problems with data types
+  * A large amount of day-to-day frustration of learners *and experienced users* comes down to problems with data types
   * It's *very important* to understand how `R` sees your data
   
 **SLIDE** (Five "atomic" data types)
@@ -408,6 +39,7 @@ NULL
 **SLIDE** (Atomic data types)
 
 * **Create some variables in script**
+  * create script `datatypes.R`
 
 ```
 # Some variables
@@ -419,7 +51,8 @@ c <- 3 + 0i
 txt <- "TRUE"
 ```
 
-* Show equivalence of integer, double and complex
+* **SOURCE SCRIPT**
+* **INTERACTIVELY** Show equivalence of integer, double and complex
 
 ```
 > typeof(i)
@@ -439,6 +72,8 @@ txt <- "TRUE"
 > is.numeric(c)
 [1] FALSE
 ```
+
+![Red/green sticky](images/red_green_sticky.png)
 
 * Show other types
 
@@ -464,6 +99,21 @@ txt <- "TRUE"
 [1] FALSE
 ```
 
+![Red/green sticky](images/red_green_sticky.png)
+
+**SLIDE** (Challenge 1)
+
+* 5min, then answers
+
+```
+answer <- TRUE
+height <- 183
+dog_name <- "Fido"
+is.logical(answer)
+is.numeric(height)
+is.character(dog_name)
+```
+
 **SLIDE** (Five data structures)
 
 * Talk around slide
@@ -477,8 +127,9 @@ txt <- "TRUE"
 * Vectors can contain only one data type
   * vectors also known as "atomic vectors"
 
+* **LIVE PRESENTATION**
 * **The `c()` function**
-  * `c()` is the "concatenate" function
+  * `c()` is the "concatenate" function, used to build vectors:
 
 ```
 > x <- c(10, 12, 45, 33)
@@ -558,6 +209,7 @@ txt <- "TRUE"
 
 **SLIDE** (Challenge 2)
 
+* 5min, then answers
 * Point out that `R` will attempt to "coerce" the datatype to be one that can represent all items in the vector.
 
 Solution:
@@ -625,7 +277,7 @@ NAs introduced by coercion
  int [1:11] 0 1 2 3 4 5 6 7 8 9 ...
 ```
 
-* Vector elements can also be named (this is *similar to*, but not the same as a Python dictionary)
+* Vector elements can also be named (this is *similar to*, but not the same as a Python dictionary - it's more like a `namedtuple`)
 
 ```
 > x <- 1:4
@@ -642,6 +294,8 @@ a b c d
  - attr(*, "names")= chr [1:4] "a" "b" "c" "d"
 ```
 
+![Red/green sticky](images/red_green_sticky.png)
+
 ### Factors
 
 **SLIDE** (Factors)
@@ -650,6 +304,7 @@ a b c d
 
 **SLIDE** (Factors demo)
 
+* **LIVE PRESENTATION**
 * **Create factor**
   * Use the `factor()` function with a vector as the argument
   * Predefined values are those present on creation
@@ -708,15 +363,18 @@ expt
 > barplot(table(expt))
 ```
 
+![Red/green sticky](images/red_green_sticky.png)
+
 ### Matrices
 
 **SLIDE** (Matrices)
 
+* **LIVE PRESENTATION**
 * **Creating a matrix**
   * Matrices are essentially atomic vectors with extra dimensions
   * `set.seed()` makes our pseudorandom numbers reproducible
   * `rnorm()` selects values from a standard normal distribution
-  * Create matrix with `matrix()`, passing a vector and specifying the number of rows and columns
+  * Create matrix with `matrix()` function, passing a *vector* and specifying the number of rows and columns
   
 ```
 > set.seed(1)
@@ -730,6 +388,7 @@ expt
  num [1:3, 1:6] -0.626 0.184 -0.836 1.595 0.33 ...
 ```
 
+* **NOTE**
 * `RStudio` treats vectors as 'Values' and matrices as 'Data', in the environment
 * `RStudio` also lets you see the matrix in the editor window (**demo this**)
 
@@ -743,6 +402,8 @@ expt
 > ncol(x)
 [1] 6
 ```
+
+![Red/green sticky](images/red_green_sticky.png)
 
 **SLIDE** (Challenge 3)
 
@@ -781,6 +442,7 @@ Solution:
 ### Lists
 
 * **Creating a list**
+  * You might think that atomic vectors are quite limited: lists give you freedom of data types
   * Directly with `list()`
   * By coercion with `as.list()`
   * Elements indicated/recovered by double-brackets: `[[]]`
@@ -838,151 +500,8 @@ List of 2
  $ data_structures: chr [1:4] "vector" "matrix" "factor" "list"
 ```
 
-## Functions
+![Red/green sticky](images/red_green_sticky.png)
 
-**SLIDE** (Functions)
-
-**SLIDE** (Learning objectives)
-
-* Talk around slide
-
-* **Why functions?**
-  * You've already seen the power of functions, for encapsulating complex analyses into simple commands
-  * Functions work similarly in `R` to in Python
-
-**SLIDE** (What is a function?)
-
-* Talk around slide
-
-### Defining a function
-
-**SLIDE** (Defining a function)
-
-* Talk around slide
-
-* **Create a new `R` script file to hold functions**
-  * `File -> New File -> R Script`
-  * `File -> Save -> functions-lesson.R`
-  * Check what's happened in Git tab 
-
-* **Write new function in script**
-  * Describe parts of function:
-  * *prototype* with inputs
-  * code block/body
-  * indentation (readability)
-  * addition, and return statements
-  * function scope, internal variables (readability)
-  * assignment of function to variable
-  * comments (readability)
-  
-
-```
-# Returns sum of two inputs
-my_sum <- function(a, b) {
-  the_sum <- a + b
-  return(the_sum)
-}
-# Converts fahrenheit to Kelvin
-fahr_to_kelvin <- function(temp) {
-  kelvin <- ((temp - 32) * (5 / 9)) + 273.15
-  return(kelvin)
-}
-```
-
-* **Run the functions**
-  * `source` the script
-  * tab-completion works!
-  * boiling and freezing points
-
-```
-> fahr_to_kelvin(32)
-[1] 273.15
-> fahr_to_kelvin(212)
-[1] 373.15
-```
-
-**SLIDE** (Challenge 1)
-
-Solution:
-
-```
-kelvin_to_celsius <- function(temp) {
-  celsius <- temp - 273.15
-  return(celsius)
-}
-```
-
-**SLIDE** (Challenge 2)
-
-Solution:
-
-```
-fahr_to_celsius <- function(temp) {
-  kelvin <- fahr_to_kelvin(temp)
-  celsius <- kelvin_to_celsius(kelvin)
-  return(celsius)
-}
-```
-
-**INSERTED EXAMPLE**
-
-* Just as in Python, we can use `for` loops to apply a function to several values
-* Avoids repetition
-
-```
-for (i in 32:100) {
-  print(fahr_to_celsius(i))
-}
-```
-
-* Can also apply functions to vectors
-
-```
-fahr_to_celsius(32:100)
-```
-
-* Also `if` and `if/else` statements, as in Python:
-
-```
-if (5 > 1) {
-  print("condition is true")
-}
-```
-
-```
-if (5 < 1) {
-  print("condition is true")
-} else {
-  print("condition is false")
-}
-```
-
-
-* **Commit to local Git repo**
-
-**SLIDE** (Testing functions)
-
-* Talk around slide
-
-* **Known good values**
-  * water freezes at 32F/0C, boils at 212F/100C
-  
-```
-> fahr_to_celsius(32)
-[1] 0
-> fahr_to_celsius(212)
-[1] 100
-```
-
-* **Known bad values**
-  * All values are fair game on Fahrenheit/Celsius, but can't go below 0K
-  
-```
-> kelvin_to_celsius(-10)
-[1] -283.15
-```
-
-* **We'd need to modify this for real use!**
 
 ## Data Frames
 
@@ -1029,7 +548,7 @@ if (5 < 1) {
  f:1   Max.   :6.00   Max.   :219.0  
 ```
 
-* Rows are named automatically, by default.
+* Rows are indexed/named automatically, by default.
 * The length of a `data.frame` is the number of columns it has
 * Use `dim()`, `nrow()`, `ncol()` to get the numbers of rows and columns
 
@@ -1244,6 +763,11 @@ gapminder <- read.table(
   file="data/gapminder-FiveYearData.csv",
   header=TRUE, sep=","
 )
+```
+
+* Source the script. Then:
+
+```
 head(gapminder)
       country year      pop continent lifeExp gdpPercap
 1 Afghanistan 1952  8425333      Asia  28.801  779.4453
@@ -1271,6 +795,11 @@ head(gapminder)
 ```
 > # Load survey data
 > surveys <- read.csv('http://files.figshare.com/2236372/combined.csv')
+```
+
+* Source the script, then:
+
+```
 > head(surveys)
   record_id month day year plot_id species_id sex hindfoot_length weight   genus  species
 1         1     7  16 1977       2         NL   M              32     NA Neotoma albigula
@@ -1310,6 +839,7 @@ head(gapminder)
   * Add commit message
   * Commit
   
+![Red/green sticky](images/red_green_sticky.png)
   
 ## Indexing and Subsetting data
 
@@ -1320,7 +850,7 @@ head(gapminder)
 * **We don't always need to use all of the data**
   * There might be incomplete or inappropriate data we need to skip
   * We may only care about a subset of samples/observations
-  * We typically want to run cross-validation of statistical models
+  * We may want to run cross-validation of statistical models
 
 * Talk around slide
 
@@ -1381,7 +911,7 @@ named numeric(0)
 
 ### Skip/remove by index
 
-* **Use a negative number to return all *other* elements**
+* **Use a negative number to return all elements *other than those listed*.**
 
 ```
 > x
@@ -1434,7 +964,6 @@ Error in x[-1:3] : only 0's may be mixed with negative subscripts
 
 * **Logical mask vectors**
   * Any vector of `TRUE`/`FALSE` values the same size as the vector we subset works
-  * Shorter vectors cycle round
 
 ```
 > x <- c(5.4, 6.2, 7.1, 4.8, 7.5)
@@ -1448,6 +977,11 @@ Error in x[-1:3] : only 0's may be mixed with negative subscripts
 > x[mask]
   a   c   e 
 5.4 7.1 7.5 
+```
+
+  * Shorter vectors cycle round
+
+```
 > mask_short = c(FALSE, TRUE)
 > x[mask_short]
   b   d 
@@ -1465,8 +999,8 @@ FALSE FALSE  TRUE FALSE  TRUE
   c   e 
 7.1 7.5 
 > (x > 5) & (x < 7)
-    a     b     c     d     e 
- TRUE  TRUE FALSE  TRUE FALSE 
+    a     b     c      d     e 
+ TRUE  TRUE FALSE  FALSE FALSE 
 > x[(x > 5) & (x < 7)]
   a   b 
 5.4 6.2 
@@ -1572,8 +1106,8 @@ x[names(x) == 'a']
 **SLIDE** (Subsets of matrices)
 
 * Talk around slide
-
-* **Create matrix**
+* **LIVE PRESENTATION**
+  * **Create matrix**
 
 ```
 > set.seed(1)
@@ -1591,15 +1125,17 @@ x[names(x) == 'a']
 * **Specify row and column to extract submatrices**
   * can use ranges or subset data
   * **Does not return data with same indexes!**
-  * Leave a row or column argument blank to retrieve all rows or columns
-  * Extracting a single row or column returns a vector
-  * `R` throws an error if indexes are out of bounds
   
 ```
 > m[3:4, c(3,1)]
             [,1]       [,2]
 [1,]  1.12493092 -0.8356286
 [2,] -0.04493361  1.5952808
+```
+
+  * Leave a row or column argument blank to retrieve all rows or columns
+
+```
 > m[, c(3,1)]
             [,1]       [,2]
 [1,] -0.62124058 -0.6264538
@@ -1620,13 +1156,24 @@ x[names(x) == 'a']
 [4,]  1.5952808 -0.3053884 -0.04493361  0.78213630
 [5,]  0.3295078  1.5117812 -0.01619026  0.07456498
 [6,] -0.8204684  0.3898432  0.94383621 -1.98935170
+```
+  * Extracting a single row or column returns a vector
+
+```
 > str(m[3:4,])
  num [1:2, 1:4] -0.836 1.595 0.576 -0.305 1.125 ...
 > str(m[3,])
  num [1:4] -0.836 0.576 1.125 0.919
- > m[, c(3,6)]
+```
+
+  * `R` throws an error if indexes are out of bounds
+
+```
+> m[, c(3,6)]
 Error in m[, c(3, 6)] : subscript out of bounds
 ```
+
+![Red/green sticky](images/red_green_sticky.png)
 
 ### Subsets of lists
 
@@ -1652,7 +1199,7 @@ List of 3
 ```
 
 * **Extract list**
-  * Uses `[` operator
+  * Uses `[]` operator
   * essentially slicing
   * returns a list
   
@@ -1668,7 +1215,7 @@ $b
 ```
 
 * **Extract element**
-  * Uses `[[` operator
+  * Uses `[[]]` operator
   * returns the atomic data type
   * *you can only extract one element at a time*
   * can use the element name
@@ -1699,7 +1246,7 @@ Error in xlist[[1:2]] : subscript out of bounds
 ```
 
 * **Extract element contents**
-  * Can subset each of the elements in the list, in the same command
+  * Can subset from an element in the list, directly
   
 ```
 > xlist$data[4,]
@@ -1707,12 +1254,15 @@ Error in xlist[[1:2]] : subscript out of bounds
 4          4.6         3.1          1.5         0.2  setosa
 ```
 
+![Red/green sticky](images/red_green_sticky.png)
+
 ### Subsets of `data.frame`s
 
 **SLIDE** (Subsets of `data.frame`s)
 
 * Talk around slide
 
+* **LIVE PRESENTATION**
 * **Extract column as dataframe**
   * Use the `[]` operator - returns a dataframe
 
@@ -1757,8 +1307,7 @@ Error in xlist[[1:2]] : subscript out of bounds
 
 * **Extract row/column as dataframe**
   * Use two arguments, as for matrices
-  * Returns a dataframe if elements are mixed types
-  * To get a column dataframe, use `drop=False` argument
+  * Returns a dataframe for each row, if elements are mixed types
   
 ```
 > gapminder[1:3,]
@@ -1769,6 +1318,11 @@ Error in xlist[[1:2]] : subscript out of bounds
 > gapminder[3,]
       country year      pop continent lifeExp gdpPercap
 3 Afghanistan 1962 10267083      Asia  31.997  853.1007
+```
+
+  * To get a column dataframe, use the `drop=FALSE` argument
+
+```
 > head(gapminder[, 3, drop=FALSE])
        pop
 1  8425333
@@ -1860,8 +1414,9 @@ The following objects are masked from ‘package:base’:
 
 **SLIDE** (`select()` and `filter()`)
 
+* **LIVE PRESENTATION**
 * **`select()` keeps only the selected variables/columns**
-  * Note that we don't use strings for the column names
+  * Note that we don't quote strings for the column names
 
 ```
 > head(gapminder)
@@ -1969,8 +1524,6 @@ Solution:
 
 * **`group_by()` produces a "grouped `data.frame`"**
   * Not the same as a `data.frame`!
-  * Like a `list` where each item is a `data.frame` whose rows correspond only to a particular value of `continent`
-  * `tally()` counts up the rows in each group
 
 ```
 > gapminder %>% group_by(continent)
@@ -2021,6 +1574,12 @@ Classes ‘grouped_df’, ‘tbl_df’, ‘tbl’ and 'data.frame':	1704 obs. of
   ..- attr(*, "vars")=List of 1
   .. ..$ : symbol continent
   ..- attr(*, "drop")= logi TRUE
+```
+
+  * Like a `list` where each item is a `data.frame` whose rows correspond only to a particular value of `continent`
+  * `tally()` counts up the rows in each group  
+
+```
 > gapminder %>%
 + group_by(continent) %>%
 + tally()
@@ -2144,7 +1703,7 @@ Groups: continent [1]
 
 * Talk around slide
 
-* **`mutate()` lets us create new variabls on the fly**
+* **`mutate()` lets us create new variables on the fly**
   * We can calculate total GDP from GDP per person, and population
 
 ```
@@ -2183,13 +1742,6 @@ Variables not shown: sd_gdp_billion (dbl)
 +             sd_gdpPercap=sd(gdpPercap),
 +             mean_pop=mean(pop),
 +             sd_pop=sd(pop)) %>%
-+   mutate(gdp_billion=mean_gdpPercap*mean_pop/10^9)
-> gdp_pop_bycontinents_byyear <- gapminder %>%
-+   group_by(continent,year) %>%
-+   summarize(mean_gdpPercap=mean(gdpPercap),
-+             sd_gdpPercap=sd(gdpPercap),
-+             mean_pop=mean(pop),
-+             sd_pop=sd(pop)) %>%
 +   mutate(mean_gdp_billion=mean_gdpPercap*mean_pop/10^9)
 > head(gdp_pop_bycontinents_byyear)
 Source: local data frame [6 x 7]
@@ -2204,9 +1756,16 @@ Groups: continent [1]
 6    Africa  1977       2585.939    4142.3987  8328097 11585184        21.535946
 ```
 
+![Red/green sticky](images/red_green_sticky.png)
+
 ## Creating publication-quality graphics
 
 **SLIDE** (Creating publication-quality graphics)
+
+**SLIDE** (Visualisation is key!)
+
+* But it's not everything.
+* Visualisation can be misleading, too.
 
 **SLIDE** (Learning objectives)
 
@@ -2221,10 +1780,12 @@ Groups: continent [1]
 * **Grammar of graphics is non-intuitive, but gives advantages**
   * Data and its representation handled separately
   * Means that components can be customised to a particular representation easily
+  * Can get you a long way quickly, and can enable specific, custom data representation
 
 **SLIDE** (A basic scatterplot)
 
 * Talk around slide
+* Just like working in Excel, `matplotlib` or any other package
 
 ```
 > library(ggplot2)
@@ -2266,13 +1827,13 @@ Groups: continent [1]
 **SLIDE** (Building a scatterplot)
 
 * **Creating a `ggplot` object**
-  * Can't plot these directly
+  * We don't plot these directly
   * Can store them in variables for convenience/reproducibility
 
 ```
 > ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap))
 > p <- ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap))
-> > str(p)
+> str(p)
 List of 9
  $ data       :'data.frame':	1704 obs. of  6 variables:
   ..$ country  : Factor w/ 142 levels "Afghanistan",..: 1 1 1 1 1 1 1 1 1 1 ...
@@ -2285,7 +1846,7 @@ List of 9
 ```
 
 * **We need to add a layer**
-  * At minimum, use a `geom`
+  * At minimum, use a `geom`, with `+` to add it to the data/aesthetic layer
   * This uses the default dataset we specified in `p`, unless told otherwise
   * `geom_point` tells `ggplot2` we want to represent data as points (scatterplot)
   * We get only a scatterplot of points, but no colours
@@ -2313,7 +1874,7 @@ Solution:
 > p + geom_point()
 ```
 
-This is not a good way to view the data - we need a new geometry!
+**This is not a good way to view the data - we need a new geometry!**
 
 ### Layers
 
@@ -2329,7 +1890,7 @@ This is not a good way to view the data - we need a new geometry!
 ```
 
 * This looks wrong
-  * Lines connect continents, not countries (which is what we want)
+  * By default with our data, lines connect continents, not countries (which is what we actually want)
 
 * **Group data on a variable**
   * Use `by` to group data by country

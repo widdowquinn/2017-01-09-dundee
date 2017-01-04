@@ -378,3 +378,150 @@ NULL
 
 * For `dput()` example use `dput(head(iris))`
 * Demo `sessionInfo()`
+
+## Functions
+
+**SLIDE** (Functions)
+
+**SLIDE** (Learning objectives)
+
+* Talk around slide
+
+* **Why functions?**
+  * You've already seen the power of functions, for encapsulating complex analyses into simple commands
+  * Functions work similarly in `R` as they do in the shell/Python
+
+**SLIDE** (What is a function?)
+
+* Talk around slide
+
+### Defining a function
+
+**SLIDE** (Defining a function)
+
+* Talk around slide
+
+* **Create a new `R` script file to hold functions**
+  * `File -> New File -> R Script`
+  * `File -> Save -> functions-lesson.R`
+  * Check what's happened in Git tab 
+* **Write new function in script**
+  * Describe parts of function:
+  * *prototype* with inputs
+  * code block/body
+  * indentation (readability)
+  * addition, and return statements
+  * function scope, internal variables (readability)
+  * assignment of function to variable
+  * comments (readability)
+  
+
+```
+# Returns sum of two inputs
+my_sum <- function(a, b) {
+  the_sum <- a + b
+  return(the_sum)
+}
+# Converts fahrenheit to Kelvin
+fahr_to_kelvin <- function(temp) {
+  kelvin <- ((temp - 32) * (5 / 9)) + 273.15
+  return(kelvin)
+}
+```
+
+* **Run the functions**
+  * `source` the script
+  * tab-completion works!
+  * boiling and freezing points
+
+```
+> fahr_to_kelvin(32)
+[1] 273.15
+> fahr_to_kelvin(212)
+[1] 373.15
+```
+
+**SLIDE** (Challenge 1)
+
+Solution:
+
+```
+kelvin_to_celsius <- function(temp) {
+  celsius <- temp - 273.15
+  return(celsius)
+}
+```
+
+**SLIDE** (Challenge 2)
+
+Solution:
+
+```
+fahr_to_celsius <- function(temp) {
+  kelvin <- fahr_to_kelvin(temp)
+  celsius <- kelvin_to_celsius(kelvin)
+  return(celsius)
+}
+```
+
+**INSERTED EXAMPLE**
+
+* Just as in Python, we can use `for` loops to apply a function to several values
+* Avoids repetition
+
+```
+for (i in 32:100) {
+  print(fahr_to_celsius(i))
+}
+```
+
+* Can also apply functions to vectors
+
+```
+fahr_to_celsius(32:100)
+```
+
+* Also `if` and `if/else` statements, as in Python:
+
+```
+if (5 > 1) {
+  print("condition is true")
+}
+```
+
+```
+if (5 < 1) {
+  print("condition is true")
+} else {
+  print("condition is false")
+}
+```
+
+
+* **COMMIT TO LOCAL GIT REPO**
+
+**SLIDE** (Testing functions)
+
+* Talk around slide
+
+* **Known good values**
+  * water freezes at 32F/0C, boils at 212F/100C
+  
+```
+> fahr_to_celsius(32)
+[1] 0
+> fahr_to_celsius(212)
+[1] 100
+```
+
+* **Known bad values**
+  * All values are fair game on Fahrenheit/Celsius, but can't go below 0K
+  
+```
+> kelvin_to_celsius(-10)
+[1] -283.15
+```
+
+* **We'd need to modify this for real use!**
+
+**SLIDE** (Not the best approach…)
